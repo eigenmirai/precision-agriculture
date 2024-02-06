@@ -1,14 +1,14 @@
 [
   {
     "modid": "${modid}",
-    "name": "Xample Mod",
-    "description": "A mod that is used as an example.",
+    "name": "PrecisionAgriculture",
+    "description": "Advanced agricultural tools for a modern farming experience!",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "https://github.com/romangraef/Forge1.8.9Template/",
+    "url": "https://github.com/eigenmirai/precision-agriculture",
     "updateUrl": "",
     "authorList": [
-      "You"
+      "eigenmirai"
     ],
     "credits": "",
     "logoFile": "",

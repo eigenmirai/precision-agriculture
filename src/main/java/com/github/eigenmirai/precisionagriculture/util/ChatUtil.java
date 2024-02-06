@@ -1,4 +1,4 @@
-package util;
+package com.github.eigenmirai.precisionagriculture.util;
 
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;

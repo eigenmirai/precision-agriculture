@@ -1,4 +1,4 @@
-package features.overlay;
+package com.github.eigenmirai.precisionagriculture.overlay;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,8 @@ public class InventoryOverlay {
         if (event.type == Text.ElementType.TEXT && Keyboard.isKeyDown(Keyboard.KEY_LMENU)) {
             EntityPlayer player = mc.thePlayer;
 
-            if (player != null && player.inventory != null && player.inventory.mainInventory != null) {
-                drawInventoryOverlay();
-            } else {
-                System.out.println("Player or inventory is null.");
-            }
+            drawInventoryOverlay();
+
         }
     }
 
@@ -39,6 +37,10 @@ public class InventoryOverlay {
                 .stream()
                 .map(entry -> entry.getValue().toString() + "x " + entry.getKey())
                 .collect(Collectors.toList());
+
+        if (inventory.isEmpty()) {
+            inventory = Collections.singletonList("\u00A7cEmpty!");
+        }
 
         int x = 5;
         int y = 5;
@@ -49,7 +51,7 @@ public class InventoryOverlay {
         int backgroundColor = 0x80000000;
 
         int textWidth = inventory.stream().map(fontRenderer::getStringWidth).max(Integer::compareTo).get();
-        int textHeight = inventory.size() * fontRenderer.FONT_HEIGHT;
+        int textHeight = (fontRenderer.FONT_HEIGHT + 1) * inventory.size();
         int width = textWidth + 2 * paddingX;
         int height = textHeight + 2 * paddingY;
 
@@ -60,13 +62,15 @@ public class InventoryOverlay {
             fontRenderer.drawString(listItem, textX, textY + offsetY * 10, 0xFFFFFF);
             offsetY++;
         }
-
-
     }
 
     public Map<String, Integer> getPlayerInventoryContents() {
-        Map<String, Integer> inventoryContents = new HashMap<>();
         EntityPlayer player = mc.thePlayer;
+        if (player == null || player.inventory == null || player.inventory.mainInventory == null) {
+            return null;
+        }
+
+        Map<String, Integer> inventoryContents = new HashMap<>();
 
         for (ItemStack itemStack : player.inventory.mainInventory) {
             if (itemStack != null) {

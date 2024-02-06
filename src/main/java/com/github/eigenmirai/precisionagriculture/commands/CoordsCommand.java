@@ -1,6 +1,6 @@
-package commands;
+package com.github.eigenmirai.precisionagriculture.commands;
 
-import features.overlay.CoordinatesOverlay;
+import com.github.eigenmirai.precisionagriculture.overlay.CoordinatesOverlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -28,7 +28,7 @@ public class CoordsCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         CoordinatesOverlay.showCoords = !CoordinatesOverlay.showCoords;
-        String newState = CoordinatesOverlay.showCoords ? "\u00A7l\u00A7aSHOWN" : "\u00A7l\u00A7cHIDDEN";
+        String newState = CoordinatesOverlay.showCoords ? "\u00A7a\u00A7lSHOWN" : "\u00A7c\u00A7lHIDDEN";
         ChatComponentText message = new ChatComponentText(EnumChatFormatting.GRAY + "Coordinates are now " + newState);
         Minecraft.getMinecraft().thePlayer.addChatMessage(message);
     }

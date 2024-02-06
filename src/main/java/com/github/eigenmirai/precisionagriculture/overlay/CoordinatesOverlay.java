@@ -1,13 +1,9 @@
-package features.overlay;
+package com.github.eigenmirai.precisionagriculture.overlay;
 
+import com.github.eigenmirai.precisionagriculture.util.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Text;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -16,7 +12,7 @@ import java.util.stream.Stream;
 public class CoordinatesOverlay {
     private final Minecraft mc = Minecraft.getMinecraft();
     private final FontRenderer fontRenderer = mc.fontRendererObj;
-    public static boolean showCoords = false;
+    public static boolean showCoords = true;
 
     @SubscribeEvent
     public void onRenderGameOverlayText(Text event) {
@@ -34,8 +30,8 @@ public class CoordinatesOverlay {
         String playerX = String.format("\u00A72X: \u00A76%d", (int) mc.thePlayer.posX);
         String playerY = String.format("\u00A72Y: \u00A76%d", (int) mc.thePlayer.posY);
         String playerZ = String.format("\u00A72Z: \u00A76%d", (int) mc.thePlayer.posZ);
-        String yaw = String.format("\u00A72Yaw: \u00A76%.2f°", mc.thePlayer.rotationYaw);
-        String pitch = String.format("\u00A72Pitch: \u00A76%.2f°", mc.thePlayer.rotationPitch);
+        String yaw = String.format("\u00A72Yaw: \u00A76%.2f°", MathUtil.normalizeAngle(mc.thePlayer.rotationYaw));
+        String pitch = String.format("\u00A72Pitch: \u00A76%.2f°", MathUtil.normalizeAngle(mc.thePlayer.rotationPitch));
 
         int paddingX = 5;
         int paddingY = 5;
@@ -44,7 +40,7 @@ public class CoordinatesOverlay {
                 .map(fontRenderer::getStringWidth)
                 .max(Integer::compareTo)
                 .get();
-        int textHeight = fontRenderer.FONT_HEIGHT * 5; // 5 lines
+        int textHeight = (fontRenderer.FONT_HEIGHT + 1) * 5; // 5 lines
 
         // draw background
         int x = 5;

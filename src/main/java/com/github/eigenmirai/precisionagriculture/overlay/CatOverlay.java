@@ -1,4 +1,4 @@
-package features.overlay;
+package com.github.eigenmirai.precisionagriculture.overlay;
 
 public class CatOverlay {
 

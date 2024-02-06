@@ -1,18 +1,39 @@
-package commands;
+package com.github.eigenmirai.precisionagriculture.commands;
 
 import com.github.eigenmirai.precisionagriculture.PrecisionAgriculture;
+import io.github.moulberry.moulconfig.gui.*;
+import io.github.moulberry.moulconfig.gui.component.*;
+import io.github.moulberry.moulconfig.observer.Property;
+import io.github.moulberry.moulconfig.processor.BuiltinMoulConfigGuis;
+import io.github.moulberry.moulconfig.processor.ConfigProcessorDriver;
+import io.github.moulberry.moulconfig.processor.MoulConfigProcessor;
+import io.github.moulberry.moulconfig.processor.ProcessedOption;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import util.ChatUtil;
+import com.github.eigenmirai.precisionagriculture.util.ChatUtil;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class PrecisionAgricultureCommand extends CommandBase {
+    GuiScreen configScreen = null;
+
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) return;
+        if (configScreen != null) {
+            Minecraft.getMinecraft().displayGuiScreen(configScreen);
+            configScreen = null;
+        }
+    }
+
     @Override
     public String getCommandName() {
         return "precisionagriculture";
@@ -50,5 +71,6 @@ public class PrecisionAgricultureCommand extends CommandBase {
         component.appendSibling(user);
         component.appendSibling(ChatUtil.separator);
         Minecraft.getMinecraft().thePlayer.addChatMessage(component);
+
     }
 }
