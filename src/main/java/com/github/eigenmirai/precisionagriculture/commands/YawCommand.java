@@ -1,7 +1,6 @@
 package com.github.eigenmirai.precisionagriculture.commands;
 
 import com.github.eigenmirai.precisionagriculture.PrecisionAgriculture;
-import com.github.eigenmirai.precisionagriculture.overlay.CoordinatesOverlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;

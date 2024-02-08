@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 public class InventoryOverlay {
 
     private final Minecraft mc = Minecraft.getMinecraft();
-    @Nonnull private final FontRenderer fontRenderer = mc.fontRendererObj;
+    @Nonnull
+    private final FontRenderer fontRenderer = mc.fontRendererObj;
 
 
     @SubscribeEvent

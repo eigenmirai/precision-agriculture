@@ -2,12 +2,12 @@ package com.github.eigenmirai.precisionagriculture.garden;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityBat;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,10 +19,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PestHighlight {
-    private boolean enabled = false;
+    private boolean enabled = true;
     private final Minecraft mc = Minecraft.getMinecraft();
     private List<Entity> highlightedPests = new ArrayList<>();
-    private Color color = new Color(0.0f, 1.0f, 0.0f, 0.5f); // default color
+    private Color color = new Color(1.0f, 0.0f, 1.0f, 0.5f); // default color
 
     List<String> pestNames = Arrays.asList("Fly", "Cricket", "Locust", "Rat", "Mosquito", "Earthworm", "Mite", "Moth", "Slug", "Beetle");
 
@@ -36,17 +36,16 @@ public class PestHighlight {
         if (!enabled) return;
         mc.theWorld.loadedEntityList.forEach(
                 entity -> {
-                    if (entity instanceof EntityArmorStand
-                            && pestNames.stream().anyMatch(entity.getCustomNameTag()::contains)
-                            && !highlightedPests.contains(entity)) {
+                    if (entity instanceof EntityBat || entity instanceof EntitySilverfish) {
                         highlightedPests.add(entity);
-                        renderBoxAroundEntity(entity, event.partialTicks);
+                        renderBoxAroundEntity(entity, event.partialTicks, this.color);
+                        drawTracer(entity.getPositionVector(), this.color);
                     }
                 }
         );
     }
 
-    private void renderBoxAroundEntity(Entity entity, float partialTicks) {
+    private void renderBoxAroundEntity(Entity entity, float partialTicks, Color color) {
         double interpX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks;
         double interpY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks;
         double interpZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks;
@@ -65,7 +64,7 @@ public class PestHighlight {
         GlStateManager.disableTexture2D();
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 
-        GlStateManager.color(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, 0.5F);
+        GlStateManager.color(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 0.5F);
         GL11.glLineWidth(2.0F); // line width
 
         GlStateManager.disableDepth();
@@ -123,6 +122,40 @@ public class PestHighlight {
         GlStateManager.disableBlend();
 
         GlStateManager.popMatrix();
+    }
+
+    public static void drawTracer(Vec3 from, Vec3 to, Color color) {
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.disableLighting();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.disableTexture2D();
+
+        RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
+
+        double renderPosX = to.xCoord - renderManager.viewerPosX;
+        double renderPosY = to.yCoord - renderManager.viewerPosY;
+        double renderPosZ = to.zCoord - renderManager.viewerPosZ;
+
+        GL11.glLineWidth(2.0f);
+        GL11.glColor4f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex3d(from.xCoord, from.yCoord, from.zCoord);
+        GL11.glVertex3d(renderPosX, renderPosY, renderPosZ);
+        GL11.glEnd();
+
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableDepth();
+        GlStateManager.disableBlend();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.resetColor();
+        GlStateManager.popMatrix();
+    }
+
+    public static void drawTracer(Vec3 to, Color color) {
+        drawTracer(new Vec3(0, Minecraft.getMinecraft().thePlayer.getEyeHeight(), 0), to, color);
     }
 
     public void setColor(String color) {

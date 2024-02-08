@@ -36,7 +36,7 @@ public class CoordinatesOverlay {
         int paddingX = 5;
         int paddingY = 5;
 
-       int textWidth = Stream.of(playerX, playerY, playerZ, yaw, pitch)
+        int textWidth = Stream.of(playerX, playerY, playerZ, yaw, pitch)
                 .map(fontRenderer::getStringWidth)
                 .max(Integer::compareTo)
                 .get();

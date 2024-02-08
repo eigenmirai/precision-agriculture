@@ -51,7 +51,7 @@ public class PestHighlightCommand extends CommandBase {
                     mc.thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GRAY + "Feature is already disabled!"));
                 } else {
                     mc.thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GRAY + "Pest Highlight is now \u00A7c\u00A7lDISABLED"));
-                    pestHighlight.enable();
+                    pestHighlight.disable();
                 }
             } else {
                 mc.thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Wrong usage!"));

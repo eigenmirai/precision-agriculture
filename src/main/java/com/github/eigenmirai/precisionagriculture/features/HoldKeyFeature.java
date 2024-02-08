@@ -2,6 +2,7 @@ package com.github.eigenmirai.precisionagriculture.features;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
@@ -23,7 +24,6 @@ public class HoldKeyFeature {
     public static final KeyBinding BACK = Minecraft.getMinecraft().gameSettings.keyBindBack;
     public static final KeyBinding LMOUSE = Minecraft.getMinecraft().gameSettings.keyBindAttack;
     public static final KeyBinding RMOUSE = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
-
 
 
     @SubscribeEvent
@@ -61,7 +61,12 @@ public class HoldKeyFeature {
                 Mouse.isButtonDown(0) || // left = 0
                 Mouse.isButtonDown(1)    // right = 1
         ) {
-            toggled = new boolean[] {false, false, false, false, false, false};
+            toggled = new boolean[]{false, false, false, false, false, false};
         }
+    }
+
+    @SubscribeEvent
+    public void onChatOpened(GuiOpenEvent event) {
+        toggled = new boolean[]{false, false, false, false, false, false};
     }
 }

@@ -7,7 +7,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.Random;
 
@@ -16,7 +15,7 @@ public class AdjustYawFeature {
     private final Minecraft mc = Minecraft.getMinecraft();
     public static final KeyBinding adjust_yaw = new KeyBinding("Adjust yaw", Keyboard.KEY_NUMPAD5, "PrecisionAgriculture");
     public static final KeyBinding turn_180deg = new KeyBinding("Turn around", Keyboard.KEY_NUMPAD1, "PrecisionAgriculture");
-    private boolean doJiggle = false;
+    private boolean doJiggle = true;
     private int lastSign = 1;
     private final float YAW_VARIATION = 0.15f;
     private long lastYawChangeTime = 0;

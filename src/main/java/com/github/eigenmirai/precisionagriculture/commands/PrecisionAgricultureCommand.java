@@ -1,13 +1,7 @@
 package com.github.eigenmirai.precisionagriculture.commands;
 
 import com.github.eigenmirai.precisionagriculture.PrecisionAgriculture;
-import io.github.moulberry.moulconfig.gui.*;
-import io.github.moulberry.moulconfig.gui.component.*;
-import io.github.moulberry.moulconfig.observer.Property;
-import io.github.moulberry.moulconfig.processor.BuiltinMoulConfigGuis;
-import io.github.moulberry.moulconfig.processor.ConfigProcessorDriver;
-import io.github.moulberry.moulconfig.processor.MoulConfigProcessor;
-import io.github.moulberry.moulconfig.processor.ProcessedOption;
+import com.github.eigenmirai.precisionagriculture.util.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
@@ -15,7 +9,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import com.github.eigenmirai.precisionagriculture.util.ChatUtil;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
